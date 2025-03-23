@@ -21,7 +21,7 @@ inline float32 float_to_float32(float f) {
 class hlsfloat_float {
 
 public:
-  float32 data;
+  float32 data; // from SoftFloat
 
   hlsfloat_float() : data(0) {}
   hlsfloat_float(const float val) { data = float_to_float32(val); }
