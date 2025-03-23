@@ -22,7 +22,8 @@ This limitation impacts HLS design strategies that rely on expression balancing 
 
 ## Setup
 
-Simply copy and include the `softfloathls.h` and `softfloat_processed.h` header files in your HLS C++ project.
+Simply copy the `softfloathls/softfloathls.h` and `softfloathls/softfloat_processed.h` header files in your HLS C++ project.
+That's it! How nice for a change.
 
 ## Usage
 
