@@ -4,7 +4,7 @@
 
 **SoftFloatHLS** is a soft floating-point C++ header library designed for use in high-level synthesis (HLS) designs.
 
-It adapts the SoftFloat (version 2c) library and provides C++ wrapper classes for 32-bit, 64-bit, and 128-bit floating-point types. These wrappers support common C++ operators, utility functions, type conversions, and ergonomic use in HLS-compatible C++ code.
+It adapts the SoftFloat library (version 2c) and provides C++ wrapper classes for 32-bit, 64-bit, and 128-bit floating-point types. These wrappers support common C++ operators, utility functions, type conversions, and ergonomic use in HLS-compatible C++ code.
 
 ## Motivation
 
@@ -22,17 +22,17 @@ This limitation impacts HLS design strategies that rely on expression balancing 
 
 ## Setup
 
-Simply copy and include the `hlsfloat.h` and `softfloat_processed.h` header files in your HLS C++ project.
+Simply copy and include the `softfloathls.h` and `softfloat_processed.h` header files in your HLS C++ project.
 
 ## Usage
 
 Here is an example kernel that evaluates a degree 4 polynomial using SoftFloatHLS types
 
 ```cpp
-#include "hlsfloat.h"
+#include "softfloathls.h"
 
  // 32-bit floating-point type from SoftFloatHLS
-typedef hlsfloat_float data_t;
+typedef softfloathls_float data_t;
 
 data_t top(data_t x, data_t coeffs[5]) {
     data_t x2 = x * x;
@@ -46,3 +46,9 @@ data_t top(data_t x, data_t coeffs[5]) {
 ```
 
 This kernel is now synthesizable using Vitis HLS or other HLS tools that support C++ synthesis. The datatypes in SoftFloatHLS don't depend on any vendor-specific HLS types so the library is completely standalone, we avoid having to include any vendor-specific headers or libraries in our design.
+
+## Future Work
+
+- Port over the newer version 3 of the SoftFloat library mainly to support 16-bit floating-point types
+- Provide a simple but fairly complete math library for SoftFloatHLS types, including trigonometric functions, logarithms, exponentials, and selected special functions
+- Provide some latency and resource usage comparisons between SoftFloatHLS implementation and Vitis HLS / Vivado implementation of floating point operations

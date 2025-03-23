@@ -1,4 +1,4 @@
-#include "hlsfloat.h"
+#include "softfloathls.h"
 #include <cstdio>
 #include <iostream>
 #include <limits>
@@ -10,7 +10,6 @@ template <typename T>
 bool check_equal(T a, T b) {
     return (a == b);
 }
-
 std::mt19937 gen(7);
 
 float random_numeric_float32() {
@@ -41,10 +40,10 @@ bool test_initialization() {
     float float_real_1 = 1.0f;
     float float_real_n1 = -1.0f;
 
-    hlsfloat_float float_hls_0 = hlsfloat_float(float_real_0);
-    hlsfloat_float float_hls_n0 = hlsfloat_float(-0.0f);
-    hlsfloat_float float_hls_1 = hlsfloat_float(1.0f);
-    hlsfloat_float float_hls_n1 = hlsfloat_float(-1.0f);
+    softfloathls_float float_hls_0 = softfloathls_float(float_real_0);
+    softfloathls_float float_hls_n0 = softfloathls_float(-0.0f);
+    softfloathls_float float_hls_1 = softfloathls_float(1.0f);
+    softfloathls_float float_hls_n1 = softfloathls_float(-1.0f);
 
     float float_back_0 = float_hls_0.to_float();
     float float_back_n0 = float_hls_n0.to_float();
@@ -69,7 +68,7 @@ bool test_initialization_random() {
     bool pass = true;
     for (int i = 0; i < num_tests; ++i) {
         float random_value = random_numeric_float32();
-        hlsfloat_float float_hls_random = hlsfloat_float(random_value);
+        softfloathls_float float_hls_random = softfloathls_float(random_value);
         float float_back_random = float_hls_random.to_float();
         bool result = check_equal(float_back_random, random_value);
         if (!result) {
@@ -90,9 +89,9 @@ bool test_boolean_op_random() {
     for (int i = 0; i < num_tests; ++i) {
         float random_value_a = random_numeric_float32();
         float random_value_b = random_numeric_float32();
-        hlsfloat_float float_hls_a = hlsfloat_float(random_value_a);
-        hlsfloat_float float_hls_b = hlsfloat_float(random_value_b);
-        hlsfloat_float float_hls_result;
+        softfloathls_float float_hls_a = softfloathls_float(random_value_a);
+        softfloathls_float float_hls_b = softfloathls_float(random_value_b);
+        softfloathls_float float_hls_result;
         float real_result;
 
         switch (op) {
@@ -165,8 +164,8 @@ bool test_boolean_comp_random() {
     for (int i = 0; i < num_tests; ++i) {
         float random_value_a = random_numeric_float32();
         float random_value_b = random_numeric_float32();
-        hlsfloat_float float_hls_a = hlsfloat_float(random_value_a);
-        hlsfloat_float float_hls_b = hlsfloat_float(random_value_b);
+        softfloathls_float float_hls_a = softfloathls_float(random_value_a);
+        softfloathls_float float_hls_b = softfloathls_float(random_value_b);
         bool result;
         bool real_result;
 
@@ -222,8 +221,8 @@ bool test_unary_op_random() {
     bool pass = true;
     for (int i = 0; i < num_tests; ++i) {
         float random_value = random_numeric_float32();
-        hlsfloat_float float_hls_random = hlsfloat_float(random_value);
-        hlsfloat_float float_hls_result;
+        softfloathls_float float_hls_random = softfloathls_float(random_value);
+        softfloathls_float float_hls_result;
         float real_result;
         switch (op) {
         case RND_INT:
@@ -243,6 +242,38 @@ bool test_unary_op_random() {
             std::cout << "Expected: " << real_result << ", Got: " << float_back_result << std::endl;
         }
         pass &= result;
+    }
+    return pass;
+}
+
+// test sqrt
+bool test_sqrt_random() {
+    const int num_tests = 100;
+    bool pass = true;
+    for (int i = 0; i < num_tests; ++i) {
+        float random_value = random_numeric_float32();
+        softfloathls_float float_hls_random = softfloathls_float(random_value);
+        softfloathls_float float_hls_result = float_hls_random.sqrt();
+        float real_result = std::sqrt(random_value);
+        float float_back_result = float_hls_result.to_float();
+
+        bool both_nan = std::isnan(float_back_result) && std::isnan(real_result);
+        bool only_one_nan = (std::isnan(float_back_result) ^ std::isnan(real_result));
+        if (both_nan) {
+            continue; // both are NaN, so we consider it a pass
+        }
+        if (only_one_nan) {
+            std::cout << "Test failed for value: " << random_value << std::endl;
+            std::cout << "Expected: " << real_result << ", Got: " << float_back_result << std::endl;
+            pass &= false;
+            continue;
+        }
+        if (!check_equal(float_back_result, real_result)) {
+            std::cout << "Test failed for value: " << random_value << std::endl;
+            std::cout << "Expected: " << real_result << ", Got: " << float_back_result << std::endl;
+            pass &= false;
+            continue;
+        }
     }
     return pass;
 }
@@ -273,6 +304,7 @@ int main() {
     TEST_FN(test_boolean_comp_random<GE>);
     TEST_FN(test_unary_op_random<RND_INT>);
     TEST_FN(test_unary_op_random<NEG>);
+    TEST_FN(test_sqrt_random);
     std::cout << "All tests completed." << std::endl;
     return 0;
 }
