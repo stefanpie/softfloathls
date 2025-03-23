@@ -1,0 +1,31 @@
+version = 1
+requires-python = ">=3.13"
+
+[[package]]
+name = "hls-float"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "pcpp" },
+    { name = "synth-scaffold" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pcpp", specifier = ">=1.30" },
+    { name = "synth-scaffold", git = "https://github.com/stefanpie/synth-scaffold" },
+]
+
+[[package]]
+name = "pcpp"
+version = "1.30"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/41/07/876153f611f2c610bdb8f706a5ab560d888c938ea9ea65ed18c374a9014a/pcpp-1.30.tar.gz", hash = "sha256:5af9fbce55f136d7931ae915fae03c34030a3b36c496e72d9636cedc8e2543a1", size = 94283 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/01/ca/ada7f39c5a0977893e0ef809b1617b259b2d76f6382a7abad00dd6d77904/pcpp-1.30-py2.py3-none-any.whl", hash = "sha256:05fe08292b6da57f385001c891a87f40d6aa7f46787b03e8ba326d20a3297c6e", size = 91085 },
+]
+
+[[package]]
+name = "synth-scaffold"
+version = "0.1.0"
+source = { git = "https://github.com/stefanpie/synth-scaffold#dafb59dc21bebe0d67b38780edab6e6383b1b7ef" }
