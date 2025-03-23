@@ -22,3 +22,19 @@
      LUT6                         1193
      MUXF7                         480
      MUXF8                         164
+
+
+   Number of cells:               6853
+     BUFG                            1
+     CARRY4                        167
+     DSP48E1                         4
+     FDRE                         1809
+     FDSE                           19
+     INV                           108
+     LUT2                          660
+     LUT3                         1278
+     LUT4                          654
+     LUT5                         1079
+     LUT6                          861
+     MUXF7                         144
+     MUXF8                          69
