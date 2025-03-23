@@ -1,13 +1,9 @@
 [project]
-name = "hls-float"
+name = "softfloathls"
 version = "0.1.0"
-description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = [
-    "pcpp>=1.30",
-    "synth-scaffold",
-]
+dependencies = ["pcpp>=1.30", "synth-scaffold"]
 
 [tool.uv.sources]
 synth-scaffold = { git = "https://github.com/stefanpie/synth-scaffold" }
