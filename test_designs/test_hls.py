@@ -11,7 +11,9 @@ input_source_files = [
 run_name = "synth_scaffold__float"
 s = SynthScaffold(
     input_source_files=input_source_files,
-    includes=['"test_kernel.cpp"'],
+    includes=[
+        '"test_kernel.cpp"',  # include "hlsfloat.h"
+    ],
     output_dir=DIR_CURRENT / run_name,
     target_fn="top",
 )

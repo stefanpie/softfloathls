@@ -9,4 +9,4 @@ wheels/
 # Virtual environments
 .venv
 
-synth_scaffold__*/
+hlsfloat__run_tb/
